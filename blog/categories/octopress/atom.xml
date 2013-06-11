@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <feed xmlns="http://www.w3.org/2005/Atom">
 
-  <title><![CDATA[Category: octopress | My Octopress Blog]]></title>
-  <link href="http://yoursite.com/blog/categories/octopress/atom.xml" rel="self"/>
-  <link href="http://yoursite.com/"/>
-  <updated>2013-06-11T23:24:37+05:30</updated>
-  <id>http://yoursite.com/</id>
+  <title><![CDATA[Category: octopress | Indyarocks]]></title>
+  <link href="http://indyarocks.github.io/blog/categories/octopress/atom.xml" rel="self"/>
+  <link href="http://indyarocks.github.io/"/>
+  <updated>2013-06-11T23:50:34+05:30</updated>
+  <id>http://indyarocks.github.io/</id>
   <author>
-    <name><![CDATA[Your Name]]></name>
+    <name><![CDATA[Chandan Kumar]]></name>
     
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
@@ -15,9 +15,9 @@
   
   <entry>
     <title type="html"><![CDATA[Forked octopress]]></title>
-    <link href="http://yoursite.com/blog/2013/06/11/forked-octopress/"/>
+    <link href="http://indyarocks.github.io/blog/2013/06/11/forked-octopress/"/>
     <updated>2013-06-11T23:23:00+05:30</updated>
-    <id>http://yoursite.com/blog/2013/06/11/forked-octopress</id>
+    <id>http://indyarocks.github.io/blog/2013/06/11/forked-octopress</id>
     <content type="html"><![CDATA[
 ]]></content>
   </entry>
