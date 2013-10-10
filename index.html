@@ -9,8 +9,7 @@
   <meta name="author" content="Chandan Kumar">
 
   
-  <meta name="description" content="
-">
+  <meta name="description" content="Gsub with Hash We all have used gsub for global substitution of a pattern in string. The cool thing I came across today is, you can use hash to &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -86,6 +85,93 @@
       
   <header>
     
+      <h1 class="entry-title"><a href="/blog/2013/10/10/using-ruby-gsub-with-a-hash/">Using Ruby Gsub With a Hash</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-10-10T22:47:00+05:30" pubdate data-updated="true">Oct 10<span>th</span>, 2013</time>
+        
+         | <a href="/blog/2013/10/10/using-ruby-gsub-with-a-hash/#disqus_thread">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p><strong> Gsub with Hash </strong>
+We all have used gsub for global substitution of a pattern in string. The cool thing I came across today is, you can use hash to define the replacement.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">def</span> <span class="nf">cool_gsub_with_hash</span><span class="p">(</span><span class="n">str</span><span class="p">)</span>
+</span><span class='line'>  <span class="n">str</span><span class="o">.</span><span class="n">gsub</span><span class="p">(</span><span class="sr">/[aeiou]/</span><span class="p">,</span> <span class="s1">&#39;a&#39;</span> <span class="o">=&gt;</span> <span class="s1">&#39;1&#39;</span><span class="p">,</span> <span class="s1">&#39;e&#39;</span> <span class="o">=&gt;</span> <span class="s1">&#39;2&#39;</span><span class="p">,</span> <span class="s1">&#39;i&#39;</span> <span class="o">=&gt;</span> <span class="s1">&#39;3&#39;</span><span class="p">,</span> <span class="s1">&#39;o&#39;</span> <span class="o">=&gt;</span> <span class="s1">&#39;4&#39;</span><span class="p">,</span> <span class="s1">&#39;u&#39;</span> <span class="o">=&gt;</span> <span class="s1">&#39;5&#39;</span><span class="p">)</span>
+</span><span class='line'><span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">&gt;</span> <span class="n">cool_gsub_with_hash</span><span class="p">(</span><span class="s2">&quot;We all have used gsub for global substitution of a pattern in string. &quot;</span><span class="p">)</span>
+</span><span class='line'>
+</span><span class='line'> <span class="o">=&gt;</span> <span class="s2">&quot;W2 1ll h1v2 5s2d gs5b f4r gl4b1l s5bst3t5t34n 4f 1 p1tt2rn 3n str3ng. &quot;</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">&gt;</span> <span class="n">cool_gsub_with_hash</span><span class="p">(</span><span class="s2">&quot;hello&quot;</span><span class="p">)</span>
+</span><span class='line'>
+</span><span class='line'> <span class="o">=&gt;</span> <span class="s2">&quot;h2ll4&quot;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Here we are not restricted with single character replacements:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">def</span> <span class="nf">gsub_word_with_hash</span><span class="p">(</span><span class="n">str</span><span class="p">)</span>
+</span><span class='line'>  <span class="n">str</span><span class="o">.</span><span class="n">gsub</span><span class="p">(</span><span class="sr">/H(ello)?i?/</span><span class="p">,</span> <span class="s1">&#39;Hi&#39;</span> <span class="o">=&gt;</span> <span class="s2">&quot;Namaste&quot;</span><span class="p">,</span> <span class="s2">&quot;Hello&quot;</span> <span class="o">=&gt;</span> <span class="s2">&quot;Wannakam&quot;</span><span class="p">)</span>
+</span><span class='line'><span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">&gt;</span> <span class="n">gsub_word_with_hash</span><span class="p">(</span><span class="s2">&quot;Hello Chandan&quot;</span><span class="p">)</span>
+</span><span class='line'> <span class="o">=&gt;</span> <span class="s2">&quot;Wannakam Chandan&quot;</span>
+</span><span class='line'><span class="o">&gt;</span> <span class="n">gsub_word_with_hash</span><span class="p">(</span><span class="s2">&quot;Hi Chandan&quot;</span><span class="p">)</span>
+</span><span class='line'> <span class="o">=&gt;</span> <span class="s2">&quot;Namaste Chandan&quot;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>I found it quite interesting. Courtesy: Bozahidar</p>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
       <h1 class="entry-title"><a href="/blog/2013/06/11/forked-octopress/">Forked Octopress</a></h1>
     
     
@@ -130,6 +216,10 @@
     <section>
   <h1>Recent Posts</h1>
   <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2013/10/10/using-ruby-gsub-with-a-hash/">Using Ruby Gsub With a Hash</a>
+      </li>
     
       <li class="post">
         <a href="/blog/2013/06/11/forked-octopress/">Forked Octopress</a>

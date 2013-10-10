@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: gsub | Indyarocks]]></title>
+  <link href="http://indyarocks.github.io/blog/categories/gsub/atom.xml" rel="self"/>
+  <link href="http://indyarocks.github.io/"/>
+  <updated>2013-10-10T23:24:36+05:30</updated>
+  <id>http://indyarocks.github.io/</id>
+  <author>
+    <name><![CDATA[Chandan Kumar]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[Using Ruby gsub with a hash]]></title>
+    <link href="http://indyarocks.github.io/blog/2013/10/10/using-ruby-gsub-with-a-hash/"/>
+    <updated>2013-10-10T22:47:00+05:30</updated>
+    <id>http://indyarocks.github.io/blog/2013/10/10/using-ruby-gsub-with-a-hash</id>
+    <content type="html"><![CDATA[<p><strong> Gsub with Hash </strong>
+We all have used gsub for global substitution of a pattern in string. The cool thing I came across today is, you can use hash to define the replacement.</p>
+
+<p>```ruby
+def cool_gsub_with_hash(str)
+  str.gsub(/[aeiou]/, &lsquo;a&rsquo; => &lsquo;1&rsquo;, &lsquo;e&rsquo; => &lsquo;2&rsquo;, &lsquo;i&rsquo; => &lsquo;3&rsquo;, &lsquo;o&rsquo; => &lsquo;4&rsquo;, &lsquo;u&rsquo; => &lsquo;5&rsquo;)
+end</p>
+
+<blockquote><p>cool_gsub_with_hash(&ldquo;We all have used gsub for global substitution of a pattern in string. &rdquo;)</p></blockquote>
+
+<p> => &ldquo;W2 1ll h1v2 5s2d gs5b f4r gl4b1l s5bst3t5t34n 4f 1 p1tt2rn 3n str3ng. &rdquo;</p>
+
+<blockquote><p>cool_gsub_with_hash(&ldquo;hello&rdquo;)</p></blockquote>
+
+<p> => &ldquo;h2ll4&rdquo;</p>
+
+<p><code>
+Here we are not restricted with single character replacements:
+</code>ruby
+def gsub_word_with_hash(str)
+  str.gsub(/H(ello)?i?/, &lsquo;Hi&rsquo; => &ldquo;Namaste&rdquo;, &ldquo;Hello&rdquo; => &ldquo;Wannakam&rdquo;)
+end</p>
+
+<blockquote><p>gsub_word_with_hash(&ldquo;Hello Chandan&rdquo;)
+ => &ldquo;Wannakam Chandan&rdquo;
+gsub_word_with_hash(&ldquo;Hi Chandan&rdquo;)
+ => &ldquo;Namaste Chandan&rdquo;
+```</p></blockquote>
+
+<p>I found it quite interesting. Courtesy: Bozahidar</p>
+]]></content>
+  </entry>
+  
+</feed>
