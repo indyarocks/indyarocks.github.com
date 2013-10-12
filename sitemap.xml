@@ -9,12 +9,18 @@
         <lastmod>2013-10-10T23:09:28+05:30</lastmod>
     </url>
     <url>
+        <loc>
+            http://indyarocks.github.io/blog/2013/10/12/activerecord-logger-in-rails-console/
+        </loc>
+        <lastmod>2013-10-12T15:23:09+05:30</lastmod>
+    </url>
+    <url>
         <loc>http://indyarocks.github.io/blog/archives/</loc>
-        <lastmod>2013-10-10T23:09:28+05:30</lastmod>
+        <lastmod>2013-10-12T15:23:09+05:30</lastmod>
     </url>
     <url>
         <loc>http://indyarocks.github.io/</loc>
-        <lastmod>2013-10-10T23:09:28+05:30</lastmod>
+        <lastmod>2013-10-12T15:23:09+05:30</lastmod>
     </url>
     <url>
         <loc>http://indyarocks.github.io/robots.txt</loc>

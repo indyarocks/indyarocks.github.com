@@ -4,7 +4,7 @@
   <title><![CDATA[Indyarocks]]></title>
   <link href="http://indyarocks.github.io/atom.xml" rel="self"/>
   <link href="http://indyarocks.github.io/"/>
-  <updated>2013-10-10T23:24:36+05:30</updated>
+  <updated>2013-10-12T15:23:39+05:30</updated>
   <id>http://indyarocks.github.io/</id>
   <author>
     <name><![CDATA[Chandan Kumar]]></name>
@@ -12,6 +12,80 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[ActiveRecord logger in rails console]]></title>
+    <link href="http://indyarocks.github.io/blog/2013/10/12/activerecord-logger-in-rails-console/"/>
+    <updated>2013-10-12T14:51:00+05:30</updated>
+    <id>http://indyarocks.github.io/blog/2013/10/12/activerecord-logger-in-rails-console</id>
+    <content type="html"><![CDATA[<p>This came to my surprise, as I was going through &lsquo;The Rails 4 Way&rsquo; by Obie Fernandez, that we can have our own logger instances in Rails.</p>
+
+<p>Watch, what ActiveRecord is doing with your query in console itself. :)</p>
+
+<div><script src='https://gist.github.com/indyarocks/6947792.js'></script>
+<noscript><pre><code>&gt; rails c
+Loading development environment (Rails 4.0.0)
+2.0.0p247 :001 &gt; ActiveRecord::Base.logger = Logger.new(STDOUT)
+ =&gt; #&lt;Logger:0x007f816e1c35a8 @progname=nil, @level=0, @default_formatter=#&lt;Logger::Formatter:0x007f816e1c3580 @datetime_format=nil&gt;, @formatter=nil, @logdev=#&lt;Logger::LogDevice:0x007f816e1c3530 @shift_size=nil, @shift_age=nil, @filename=nil, @dev=#&lt;IO:&lt;STDOUT&gt;&gt;, @mutex=#&lt;Logger::LogDevice::LogDeviceMutex:0x007f816e1c3508 @mon_owner=nil, @mon_count=0, @mon_mutex=#&lt;Mutex:0x007f816e1c34b8&gt;&gt;&gt;&gt;
+
+2.0.0p247 :002 &gt; user = User.first
+D, [2013-10-12T14:46:23.337060 #25919] DEBUG -- :   User Load (0.1ms)  SELECT &quot;users&quot;.* FROM &quot;users&quot; ORDER BY &quot;users&quot;.&quot;id&quot; ASC LIMIT 1
+ =&gt; #&lt;User id: 1, name: &quot;Chandan Kumar&quot;, email: &quot;chandan.jhun@gmail.com&quot;, created_at: &quot;2013-09-16 20:01:15&quot;, updated_at: &quot;2013-09-16 20:34:20&quot;, password_digest: &quot;$2a$10$qoNP6rM.89XSOJEXIsXig.9LKM2jcvY0Y4bFhCECCJ4X...&quot;, remember_token: &quot;66302290bbc685a193b5d2ab5c8d3fc67e56318e&quot;, admin: true&gt;
+
+2.0.0p247 :003 &gt; user.microposts
+D, [2013-10-12T14:46:28.886696 #25919] DEBUG -- :   Micropost Load (36.8ms)  SELECT &quot;microposts&quot;.* FROM &quot;microposts&quot; WHERE &quot;microposts&quot;.&quot;user_id&quot; = ? ORDER BY created_at DESC  [[&quot;user_id&quot;, 1]]
+ =&gt; #&lt;ActiveRecord::Associations::CollectionProxy [#&lt;Micropost id: 301, content: &quot;Cool\r\n&quot;, user_id: 1, created_at: &quot;2013-10-06 15:27:10&quot;, updated_at: &quot;2013-10-06 15:27:10&quot;&gt;, #&lt;Micropost id: 295, content: &quot;Eligendi ducimus aut incidunt vel vitae accusamus.&quot;, user_id: 1, created_at: &quot;2013-09-16 20:01:23&quot;, updated_at: &quot;2013-09-16 20:01:23&quot;&gt;, #&lt;Micropost id: 289, content: &quot;Dolores blanditiis aut omnis corrupti et unde.&quot;, user_id: 1, created_at: &quot;2013-09-16 20:01:23&quot;, updated_at: &quot;2013-09-16 20:01:23&quot;&gt;, #&lt;Micropost id: 283, content: &quot;Quia iste et consequatur et id illo voluptas.&quot;, user_id: 1, created_at: &quot;2013-09-16 20:01:23&quot;, updated_at: &quot;2013-09-16 20:01:23&quot;&gt;, #&lt;Micropost id: 277, content: &quot;Excepturi voluptatem adipisci nesciunt praesentium ...&quot;, user_id: 1, created_at: &quot;2013-09-16 20:01:23&quot;, updated_at: &quot;2013-09-16 20:01:23&quot;&gt;, #&lt;Micropost id: 271, content: &quot;Deserunt et labore explicabo est id voluptatibus vo...&quot;, user_id: 1, created_at: &quot;2013-09-16 20:01:23&quot;, updated_at: &quot;2013-09-16 20:01:23&quot;&gt;, #&lt;Micropost id: 265, content: &quot;Aut perspiciatis sapiente aspernatur maiores.&quot;, user_id: 1, created_at: &quot;2013-09-16 20:01:23&quot;, updated_at: &quot;2013-09-16 20:01:23&quot;&gt;, #&lt;Micropost id: 259, content: &quot;Labore illo accusantium atque asperiores voluptas.&quot;, user_id: 1, created_at: &quot;2013-09-16 20:01:23&quot;, updated_at: &quot;2013-09-16 20:01:23&quot;&gt;, #&lt;Micropost id: 253, content: &quot;Laborum tempora eum ipsa dolores.&quot;, user_id: 1, created_at: &quot;2013-09-16 20:01:23&quot;, updated_at: &quot;2013-09-16 20:01:23&quot;&gt;, #&lt;Micropost id: 247, content: &quot;Excepturi commodi quibusdam velit deserunt nulla om...&quot;, user_id: 1, created_at: &quot;2013-09-16 20:01:23&quot;, updated_at: &quot;2013-09-16 20:01:23&quot;&gt;, ...]&gt;</code></pre></noscript></div>
+
+
+<p>I came across blog of Jamis Buck, and he had given on more interesting piece of hack to see the log in console.  In your config/environment.rb define following method:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">def</span> <span class="nf">log_to</span><span class="p">(</span><span class="n">stream</span><span class="p">)</span>
+</span><span class='line'>  <span class="ss">ActiveRecord</span><span class="p">:</span><span class="ss">:Base</span><span class="o">.</span><span class="n">logger</span> <span class="o">=</span> <span class="no">Logger</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="n">stream</span><span class="p">)</span>
+</span><span class='line'>  <span class="ss">ActiveRecrod</span><span class="p">:</span><span class="ss">:Base</span><span class="o">.</span><span class="n">clear_active_connections!</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Now you can buffer your logs in a local variable.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="o">&gt;</span> <span class="n">log_to</span> <span class="no">STDOUT</span>
+</span><span class='line'><span class="o">=&gt;</span> <span class="o">.</span><span class="n">.</span>
+</span><span class='line'><span class="o">&gt;</span> <span class="no">Post</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="ss">:first</span><span class="p">)</span>
+</span><span class='line'>  <span class="no">Post</span> <span class="no">Load</span> <span class="p">(</span><span class="mi">0</span><span class="o">.</span><span class="mo">00013</span><span class="mi">8</span><span class="p">)</span>   <span class="no">SELECT</span> <span class="o">*</span> <span class="no">FROM</span> <span class="n">posts</span> <span class="no">LIMIT</span> <span class="mi">1</span>
+</span><span class='line'><span class="o">=&gt;</span> <span class="c1">#&lt;Post:0x1234 ...&gt;</span>
+</span><span class='line'><span class="o">&gt;</span> <span class="n">buffer</span> <span class="o">=</span> <span class="no">StringIO</span><span class="o">.</span><span class="n">new</span>
+</span><span class='line'><span class="o">=&gt;</span> <span class="o">.</span><span class="n">.</span>
+</span><span class='line'><span class="o">&gt;</span> <span class="n">log_to</span> <span class="n">buffer</span>
+</span><span class='line'><span class="o">=&gt;</span> <span class="o">.</span><span class="n">.</span>
+</span><span class='line'><span class="no">User</span><span class="o">.</span><span class="n">first</span><span class="p">(</span><span class="ss">:first</span><span class="p">)</span>
+</span><span class='line'><span class="o">=&gt;</span> <span class="c1">#&lt;User:0x1234...&gt;</span>
+</span><span class='line'><span class="o">&gt;</span> <span class="nb">p</span> <span class="n">buffer</span><span class="o">.</span><span class="n">string</span>
+</span><span class='line'><span class="o">=&gt;</span> <span class="s2">&quot;</span><span class="se">\e</span><span class="s2">....&quot;</span> <span class="c1"># Logs here</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>This can be found useful at many place you want to check the behavior of certain queries in console.</p>
+
+<p>Thanks Jamis/Obie :)</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[Using Ruby gsub with a hash]]></title>
