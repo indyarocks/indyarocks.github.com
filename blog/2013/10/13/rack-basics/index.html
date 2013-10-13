@@ -5,12 +5,11 @@
 <!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
 <head>
   <meta charset="utf-8">
-  <title>Forked octopress - Indyarocks</title>
+  <title>Rack Basics - Indyarocks</title>
   <meta name="author" content="Chandan Kumar">
 
   
-  <meta name="description" content="
-">
+  <meta name="description" content="Today I explored Rack, an awesome API connecting web servers and web frameworks by Christian Neukirchen. Here is an introduction article by Christian &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -19,7 +18,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
   
-  <link rel="canonical" href="http://indyarocks.github.io/blog/2013/06/11/forked-octopress">
+  <link rel="canonical" href="http://indyarocks.github.io/blog/2013/10/13/rack-basics">
   <link href="/favicon.png" rel="icon">
   <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
   <link href="/atom.xml" rel="alternate" title="Indyarocks" type="application/atom+xml">
@@ -83,7 +82,7 @@
   
   <header>
     
-      <h1 class="entry-title">Forked Octopress</h1>
+      <h1 class="entry-title">Rack Basics</h1>
     
     
       <p class="meta">
@@ -99,7 +98,7 @@
   
 
 
-<time datetime="2013-06-11T23:23:00+05:30" pubdate data-updated="true">Jun 11<span>th</span>, 2013</time>
+<time datetime="2013-10-13T20:04:00+05:30" pubdate data-updated="true">Oct 13<span>th</span>, 2013</time>
         
          | <a href="#disqus_thread">Comments</a>
         
@@ -108,7 +107,121 @@
   </header>
 
 
-<div class="entry-content">
+<div class="entry-content"><p>Today I explored Rack, an awesome API connecting web servers and web frameworks by Christian Neukirchen. Here is an <a href="http://chneukirchen.org/blog/archive/2007/02/introducing-rack.html" target="_blank">introduction article</a> by Christian Neukirchen.</p>
+
+<p><a href="http://rack.github.io/" target="_blank">Rack</a> was insipired from python&rsquo;s <a href="http://wsgi.readthedocs.org/en/latest/">WSGI</a>.</p>
+
+<h3>What is Rack?</h3>
+
+
+<p>To put in the words of Christian,</br></p>
+
+<p style="font-style:italic;margin:1.5em;">Rack provides a minimal, modular and adaptable interface for developing web applications in Ruby. By wrapping HTTP requests and responses in the simplest way possible, it unifies and distills the API for web servers, web frameworks, and software in between (the so-called middleware) into a single method call.</p>
+
+
+<p>Instead of going deeper in documentation, I&rsquo;ll walk through what exactly Rack is, and how it fits in different web-frameworks in Ruby. I&rsquo;ve put the references at the end of the post, which helped me understand Rack.</p>
+
+<!-- more -->
+
+
+<p>Rack is very simple yet very powerful tool. Rack has <a href="http://rack.rubyforge.org/doc/SPEC.html" target="_blank">specifications</a> on how Rack application and web server should communicate. As long as you follow them, you don&rsquo;t need &lsquo;rack&rsquo; gem to develop you framework.</p>
+
+<p style="font-style:italic;margin:1.5em;">A Rack application is a Ruby object(not a class) that responds to <span style="text-decoration:underline">call</span>. It takes exactly one argument, the environment and return an Array of exactly three values: The status, the headers, and the body.</p>
+
+
+
+
+<h3>TODO</h3>
+
+
+<div><script src='https://gist.github.com/indyarocks/6963372.js'></script>
+<noscript><pre><code># config.ru
+require 'rack/lobster'
+require 'logger'
+
+infinity =  Rack::Builder.new do
+
+  
+  use Rack::CommonLogger
+  Logger.new('rack.log')
+
+  map '/' do
+    run Proc.new {|env| [200, {&quot;Content-Type&quot; =&gt; &quot;text/html&quot;}, [&quot;hello&quot;]]}
+  end
+
+  map '/secret' do
+    use Rack::Auth::Basic, &quot;Restricted Area&quot; do |user, password|
+      user == 'super' &amp;&amp; password == 'secretsauce'
+    end
+
+    map '/' do
+      run Proc.new{|env| [200, {&quot;Content-Type&quot; =&gt; &quot;text/html&quot;}, [&quot;Secret page&quot;]]}
+    end    
+  end
+
+  map '/version' do 
+    map '/' do
+      run Proc.new{|env| [200, {&quot;Content-Type&quot; =&gt; &quot;text/html&quot;}, [&quot;Infinity 0.1&quot;]]}
+    end
+ 
+    map '/last' do
+      run Proc.new{|env| [200, {&quot;Content-Type&quot; =&gt; &quot;text/html&quot;}, [&quot;Infinity Beta&quot;]]}
+    end
+  end
+end
+
+
+class ToUpper
+  # Initialize another Rack app
+  def initialize(app)
+    @app = app
+  end
+
+  def call(env)
+    # First call @app
+    status, headers, body = @app.call(env)
+    
+    # Upcase body
+    upcased_body = &quot;&quot;
+    body.each {|chunk| upcased_body &lt;&lt; chunk.upcase }
+
+    # Pass new body
+    [status, headers, [upcased_body]]
+  end
+end
+
+use Rack::Reloader
+use ToUpper
+run infinity
+#run Rack::Lobster.new
+</code></pre></noscript></div>
+
+
+
+
+<h3><span style="text-decoration:underline">References</span>:-</h3>
+
+
+<div style="margin-left:50px;">
+<ol>
+    <li><a href="https://github.com/rack/rack/wiki/Tutorials" target="_blank">Rack Tutorials</a></li>
+    <li><a href="http://rubylearning.com/blog/a-quick-introduction-to-rack/" target="_blank">A Quick Introduction to Rack by Satish Talim</a></li>
+    <li><a href="http://m.onkey.org/ruby-on-rack-1-hello-rack" target="_blank">Ruby on Rack #1 by Pratik Naik</a></li>
+    <li><a href="http://m.onkey.org/ruby-on-rack-2-the-builder" target="_blank">Ruby on Rack #2 by Pratik Naik</a></li>
+    <li><a href="http://net.tutsplus.com/tutorials/exploring-rack/" target="_blank">Exploring Rack</a></li>
+    <li><a href="https://devcenter.heroku.com/articles/static-sites-ruby" target="_blank">Creating Static Sites in Ruby with Rack</a></li>
+    <li><a href="http://chneukirchen.org/blog/archive/2007/02/introducing-rack.html" target="_blank">introduction article by Christian Neukirchen</a></li>
+    <li><a href="http://library.edgecase.com/rails-routing-and-rack-endpoints" target="_blank">RAILS 3 ROUTING AND RACK ENDPOINTS by Matt Yoho</a></li> 
+</ol>   
+</div>
+
+
+<ul>
+<li style="font-style:italic;">PS: The whole credit of this article goes to the author of <em>References</em> listed above. I have just jotted down, what I learnt today mostly as note for my own reference.</li>
+</ul>
+
+
+
 </div>
 
 
@@ -131,12 +244,12 @@
   
 
 
-<time datetime="2013-06-11T23:23:00+05:30" pubdate data-updated="true">Jun 11<span>th</span>, 2013</time>
+<time datetime="2013-10-13T20:04:00+05:30" pubdate data-updated="true">Oct 13<span>th</span>, 2013</time>
       
 
 <span class="categories">
   
-    <a class='category' href='/blog/categories/github/'>github</a>, <a class='category' href='/blog/categories/github-pages/'>github pages</a>, <a class='category' href='/blog/categories/octopress/'>octopress</a>
+    <a class='category' href='/blog/categories/proc/'>Proc</a>, <a class='category' href='/blog/categories/rack/'>Rack</a>, <a class='category' href='/blog/categories/rails/'>Rails</a>, <a class='category' href='/blog/categories/sinatra/'>Sinatra</a>
   
 </span>
 
@@ -145,7 +258,7 @@
     
       <div class="sharing">
   
-  <a href="http://twitter.com/share" class="twitter-share-button" data-url="http://indyarocks.github.io/blog/2013/06/11/forked-octopress/" data-via="chandanj" data-counturl="http://indyarocks.github.io/blog/2013/06/11/forked-octopress/" >Tweet</a>
+  <a href="http://twitter.com/share" class="twitter-share-button" data-url="http://indyarocks.github.io/blog/2013/10/13/rack-basics/" data-via="chandanj" data-counturl="http://indyarocks.github.io/blog/2013/10/13/rack-basics/" >Tweet</a>
   
   
   
@@ -156,8 +269,8 @@
     
     <p class="meta">
       
+        <a class="basic-alignment left" href="/blog/2013/10/12/activerecord-logger-in-rails-console/" title="Previous Post: ActiveRecord logger in rails console">&laquo; ActiveRecord logger in rails console</a>
       
-        <a class="basic-alignment right" href="/blog/2013/10/10/using-ruby-gsub-with-a-hash/" title="Next Post: Using Ruby gsub with a hash">Using Ruby gsub with a hash &raquo;</a>
       
     </p>
   </footer>
@@ -264,8 +377,8 @@
       
         
         // var disqus_developer = 1;
-        var disqus_identifier = 'http://indyarocks.github.io/blog/2013/06/11/forked-octopress/';
-        var disqus_url = 'http://indyarocks.github.io/blog/2013/06/11/forked-octopress/';
+        var disqus_identifier = 'http://indyarocks.github.io/blog/2013/10/13/rack-basics/';
+        var disqus_url = 'http://indyarocks.github.io/blog/2013/10/13/rack-basics/';
         var disqus_script = 'embed.js';
       
     (function () {
